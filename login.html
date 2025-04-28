@@ -164,6 +164,8 @@
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
+      const userAgent = navigator.userAgent;
+      console.log('User Browser Info:', userAgent);
 
       const response = await fetch('https://backend-auth-10r6.onrender.com/login', {
         method: 'POST',
