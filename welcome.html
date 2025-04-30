@@ -1,25 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
     body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-color: white;
-      margin: 0;
-      font-family: Arial, sans-serif;
+      color: #fff;
+      padding: 40px;
     }
-    h1 {
-      font-size: 80px;
-      color: black;
+
+    .dashboard {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      padding: 40px;
+      border-radius: 25px;
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 200px !important;
+    }
+
+    .logout {
+      background: #ff4b5c;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .logout:hover {
+      background: #e03a4f;
+    }
+
+    .card small {
+      display: block;
+      font-size: 12px;
+      color: #eee;
+      margin-top: 8px;
     }
   </style>
 </head>
 <body>
-  <h1>Hello User!</h1>
+  <div class="dashboard">
+    <div class="card">
+      <h2>Welcome, <span id="username">User</span> 👋</h2>
+      <p><strong>IP:</strong> <span id="ip">Loading...</span></p>
+      <p><strong>Location:</strong> <span id="location">Loading...</span></p>
+      <p><strong>Browser:</strong> <span id="browser">Loading...</span></p>
+      <small id="timestamp">Login time: --</small>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="card">
+      <h2>Usage Overview</h2>
+      <canvas id="usageChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Daily Logins</h2>
+      <canvas id="loginChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Activity Timeline</h2>
+      <canvas id="timelineChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // User greeting and browser info
+    document.getElementById('username').textContent = localStorage.getItem('username') || 'User';
+    document.getElementById('browser').textContent = navigator.userAgent;
+    document.getElementById('timestamp').textContent = 'Login time: ' + new Date().toLocaleString();
+
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('ip').textContent = data.ip;
+        document.getElementById('location').textContent = `${data.city}, ${data.country_name}`;
+      });
+
+    // Chart 1 - Usage
+    new Chart(document.getElementById('usageChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Signups', 'Logins', 'Sessions'],
+        datasets: [{
+          label: 'Usage',
+          data: [30, 50, 20],
+          backgroundColor: ['#74ebd5', '#667eea', '#ff6f91']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    // Chart 2 - Daily Logins
+    new Chart(document.getElementById('loginChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Logins',
+          data: [5, 8, 4, 6, 10, 3, 7],
+          backgroundColor: '#fff',
+          borderRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    // Chart 3 - Timeline (Line)
+    new Chart(document.getElementById('timelineChart'), {
+      type: 'line',
+      data: {
+        labels: ['8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM'],
+        datasets: [{
+          label: 'Activity Timeline',
+          data: [2, 3, 5, 4, 6, 3, 4],
+          borderColor: '#00ffe7',
+          backgroundColor: 'rgba(0, 255, 231, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: true } }
+      }
+    });
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
+  </script>
 </body>
 </html>
