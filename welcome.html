@@ -1,197 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    body {
-      background: linear-gradient(to right, #667eea, #764ba2);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      padding: 40px;
-    }
-
-    .dashboard {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      padding: 40px;
-      border-radius: 25px;
-      width: 100%;
-      max-width: 1200px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    }
-
-    h2 {
-      font-size: 22px;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 200px !important;
-    }
-
-    .logout {
-      background: #ff4b5c;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s;
-    }
-
-    .logout:hover {
-      background: #e03a4f;
-    }
-
-    .card small {
-      display: block;
-      font-size: 12px;
-      color: #eee;
-      margin-top: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="dashboard">
-    <div class="card">
-      <h2>Welcome, <span id="username">User</span> 👋</h2>
-      <p><strong>IP:</strong> <span id="ip">Loading...</span></p>
-      <p><strong>Location:</strong> <span id="location">Loading...</span></p>
-      <p><strong>Browser:</strong> <span id="browser">Loading...</span></p>
-      <small id="timestamp">Login time: --</small>
-      <button class="logout" onclick="logout()">Logout</button>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-tachometer-alt logo-icon"></i>
+                <h2>MyDashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i><span>Overview</span></a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i><span>Reports</span></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i><span>Users</span></a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i><span>Settings</span></a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Your Company</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Welcome Back, User!</h1>
+                    <p>Here's your dashboard overview for today.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-button"><i class="fas fa-search"></i></button>
+                    <button class="icon-button"><i class="fas fa-bell"></i><span class="notification-badge">3</span></button>
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                        <span>John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <section class="stats-cards">
+                <article class="card card-blue">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <div class="card-content">
+                        <h3>New Users</h3>
+                        <p>1,234</p>
+                    </div>
+                    <div class="card-trend increase">
+                        <i class="fas fa-arrow-up"></i> 15%
+                    </div>
+                </article>
+                <article class="card card-green">
+                    <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="card-content">
+                        <h3>Revenue</h3>
+                        <p>$56,789</p>
+                    </div>
+                     <div class="card-trend increase">
+                        <i class="fas fa-arrow-up"></i> 8%
+                    </div>
+                </article>
+                <article class="card card-orange">
+                    <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="card-content">
+                        <h3>Orders</h3>
+                        <p>520</p>
+                    </div>
+                     <div class="card-trend decrease">
+                        <i class="fas fa-arrow-down"></i> 2%
+                    </div>
+                </article>
+                <article class="card card-purple">
+                    <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
+                    <div class="card-content">
+                        <h3>Conversion Rate</h3>
+                        <p>2.5%</p>
+                    </div>
+                     <div class="card-trend increase">
+                        <i class="fas fa-arrow-up"></i> 0.5%
+                    </div>
+                </article>
+            </section>
+
+            <section class="data-section">
+                <div class="chart-container">
+                    <h2>Sales Trend</h2>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Chart data would load here</p>
+                        <div class="loading-bar"></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h2>Recent Activity</h2>
+                    <div class="table-placeholder">
+                        <i class="fas fa-table"></i>
+                        <p>Table data would load here</p>
+                         <table>
+                            <thead>
+                                <tr><th>ID</th><th>User</th><th>Action</th><th>Timestamp</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>Alice</td><td>Logged In</td><td>11:50 AM</td></tr>
+                                <tr><td>2</td><td>Bob</td><td>Updated Profile</td><td>11:45 AM</td></tr>
+                                <tr><td>3</td><td>Charlie</td><td>Placed Order</td><td>11:30 AM</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
-    <div class="card">
-      <h2>Usage Overview</h2>
-      <canvas id="usageChart"></canvas>
-    </div>
-
-    <div class="card">
-      <h2>Daily Logins</h2>
-      <canvas id="loginChart"></canvas>
-    </div>
-
-    <div class="card">
-      <h2>Activity Timeline</h2>
-      <canvas id="timelineChart"></canvas>
-    </div>
-  </div>
-
-  <script>
-    // User greeting and browser info
-    document.getElementById('username').textContent = localStorage.getItem('username') || 'User';
-    document.getElementById('browser').textContent = navigator.userAgent;
-    document.getElementById('timestamp').textContent = 'Login time: ' + new Date().toLocaleString();
-
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('ip').textContent = data.ip;
-        document.getElementById('location').textContent = `${data.city}, ${data.country_name}`;
-      });
-
-    // Chart 1 - Usage
-    new Chart(document.getElementById('usageChart'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Signups', 'Logins', 'Sessions'],
-        datasets: [{
-          label: 'Usage',
-          data: [30, 50, 20],
-          backgroundColor: ['#74ebd5', '#667eea', '#ff6f91']
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { position: 'bottom' } }
-      }
-    });
-
-    // Chart 2 - Daily Logins
-    new Chart(document.getElementById('loginChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [{
-          label: 'Logins',
-          data: [5, 8, 4, 6, 10, 3, 7],
-          backgroundColor: '#fff',
-          borderRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } }
-      }
-    });
-
-    // Chart 3 - Timeline (Line)
-    new Chart(document.getElementById('timelineChart'), {
-      type: 'line',
-      data: {
-        labels: ['8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM'],
-        datasets: [{
-          label: 'Activity Timeline',
-          data: [2, 3, 5, 4, 6, 3, 4],
-          borderColor: '#00ffe7',
-          backgroundColor: 'rgba(0, 255, 231, 0.2)',
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: true } }
-      }
-    });
-
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'index.html';
-    }
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
